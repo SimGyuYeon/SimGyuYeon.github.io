@@ -1,12 +1,17 @@
 {
 "resultcode":"100",
 "exercise":[
-		{"exer_name":"Bench Press", "exer_part":"1"},
-		{"exer_name":"Chest Dip", "exer_part":"1"},
-		{"exer_name":"Incline Bench Press", "exer_part":"1"},
-		{"exer_name":"Squat", "exer_part":"2"},
-		{"exer_name":"Lying Leg Curl", "exer_part":"2"},
-		{"exer_name":"Leg Extension", "exer_part":"2"},
-		{"exer_name":"Pull Up", "exer_part":"3"},
-		{"exer_name":"Pendlay Row", "exer_part":"3"}
-]}
+	{"exer_name":"Bench Press", "exer_part":"1"},
+	{"exer_name":"Chest Dip", "exer_part":"1"},
+	{"exer_name":"Incline Bench Press", "exer_part":"1"},
+	{"exer_name":"Squat", "exer_part":"2"},
+	{"exer_name":"Lying Leg Curl", "exer_part":"2"},
+	{"exer_name":"Leg Extension", "exer_part":"2"},
+	{"exer_name":"Pull Up", "exer_part":"3"},
+	{"exer_name":"Pendlay Row", "exer_part":"3"}]
+"exermap":[
+	{"id": 1, "part": "Chest", "part_kor": "가슴"},
+	{"id": 2, "part": "Leg", "part_kor": "다리"},
+	{"id": 3, "part": "Back", "part_kor": "등"},
+	{"id": 4, "part": "Arm", "part_kor": "팔"}]
+}
