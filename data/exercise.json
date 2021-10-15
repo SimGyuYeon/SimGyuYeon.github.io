@@ -4,16 +4,23 @@
 	{"exercise":[
 	{"exer_id": 1, "exer_name":"Bench Press", "exer_part":1},
 	{"exer_id": 2, "exer_name":"Chest Dip", "exer_part":1},
-	{"exer_id": 3, "exer_name":"Incline Bench Press", "exer_part":1},
-	{"exer_id": 4, "exer_name":"Squat", "exer_part":2},
-	{"exer_id": 5, "exer_name":"Lying Leg Curl", "exer_part":2},
-	{"exer_id": 6, "exer_name":"Leg Extension", "exer_part":2},
-	{"exer_id": 7, "exer_name":"Pull Up", "exer_part":3},
-	{"exer_id": 8, "exer_name":"Pendlay Row", "exer_part":3}]},
-	 {"exermap":[
+	{"exer_id": 3, "exer_name":"Push Up", "exer_part":1},
+	{"exer_id": 4, "exer_name":"Incline Bench Press", "exer_part":1},
+	{"exer_id": 5, "exer_name":"Cable Crossover", "exer_part":1},
+	{"exer_id": 6, "exer_name":"Chest Fly", "exer_part":1},
+	{"exer_id": 7, "exer_name":"Pull Over", "exer_part":1},		
+	{"exer_id": 8, "exer_name":"Squat", "exer_part":2},
+	{"exer_id": 9, "exer_name":"Lying Leg Curl", "exer_part":2},
+	{"exer_id": 10, "exer_name":"Leg Extension", "exer_part":2},
+	{"exer_id": 11, "exer_name":"Pull Up", "exer_part":3},
+	{"exer_id": 12, "exer_name":"Pendlay Row", "exer_part":3}]},
+	{"exermap":[
 	{"id": 1, "part": "Chest", "part_kor": "가슴"},
 	{"id": 2, "part": "Leg", "part_kor": "다리"},
 	{"id": 3, "part": "Back", "part_kor": "등"},
-	{"id": 4, "part": "Arm", "part_kor": "팔"}]}
+	{"id": 4, "part": "Arm", "part_kor": "팔"},
+	{"id": 5, "part": "Back", "part_kor": "어깨"},
+	{"id": 6, "part": "Back", "part_kor": "전신"},
+	{"id": 7, "part": "Back", "part_kor": "코어"}]}
 ]
 }
