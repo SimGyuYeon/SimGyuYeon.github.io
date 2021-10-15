@@ -2,14 +2,14 @@
 "resultcode":"100",
 "list":[
 	{"exercise":[
-	{"exer_name":"Bench Press", "exer_part":"1"},
-	{"exer_name":"Chest Dip", "exer_part":"1"},
-	{"exer_name":"Incline Bench Press", "exer_part":"1"},
-	{"exer_name":"Squat", "exer_part":"2"},
-	{"exer_name":"Lying Leg Curl", "exer_part":"2"},
-	{"exer_name":"Leg Extension", "exer_part":"2"},
-	{"exer_name":"Pull Up", "exer_part":"3"},
-	{"exer_name":"Pendlay Row", "exer_part":"3"}]},
+	{"exer_id": 1, "exer_name":"Bench Press", "exer_part":"1"},
+	{"exer_id": 2, "exer_name":"Chest Dip", "exer_part":"1"},
+	{"exer_id": 3, "exer_name":"Incline Bench Press", "exer_part":"1"},
+	{"exer_id": 4, "exer_name":"Squat", "exer_part":"2"},
+	{"exer_id": 5, "exer_name":"Lying Leg Curl", "exer_part":"2"},
+	{"exer_id": 6, "exer_name":"Leg Extension", "exer_part":"2"},
+	{"exer_id": 7, "exer_name":"Pull Up", "exer_part":"3"},
+	{"exer_id": 8, "exer_name":"Pendlay Row", "exer_part":"3"}]},
 	 {"exermap":[
 	{"id": 1, "part": "Chest", "part_kor": "가슴"},
 	{"id": 2, "part": "Leg", "part_kor": "다리"},
