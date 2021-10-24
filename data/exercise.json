@@ -19,7 +19,8 @@
 	{"exer_id": 15, "exer_name":"Lying Leg Curl", "exer_part":2},
 	{"exer_id": 16, "exer_name":"Leg Extension", "exer_part":2},
 	{"exer_id": 17, "exer_name":"Pull Up", "exer_part":3},
-	{"exer_id": 18, "exer_name":"Pendlay Row", "exer_part":3}]},
+	{"exer_id": 18, "exer_name":"Pendlay Row", "exer_part":3},
+	]},
 	{"exermap":[
 	{"id": 1, "part": "Chest", "part_kor": "가슴"},
 	{"id": 2, "part": "Leg", "part_kor": "다리"},
