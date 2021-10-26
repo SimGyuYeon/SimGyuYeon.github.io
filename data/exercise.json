@@ -21,12 +21,12 @@
 	{"exer_id": 17, "exer_name":"Pull Up", "exer_part":3},
 	{"exer_id": 18, "exer_name":"Pendlay Row", "exer_part":3}]},
 	{"exermap":[
-	{"id": 1, "part": "Chest", "part_kor": "가슴"},
-	{"id": 2, "part": "Leg", "part_kor": "다리"},
-	{"id": 3, "part": "Back", "part_kor": "등"},
-	{"id": 4, "part": "Arm", "part_kor": "팔"},
-	{"id": 5, "part": "Back", "part_kor": "어깨"},
-	{"id": 6, "part": "Back", "part_kor": "전신"},
-	{"id": 7, "part": "Back", "part_kor": "코어"}]}
+	{"id": 1, "part_kor": "가슴"},
+	{"id": 2, "part_kor": "다리"},
+	{"id": 3, "part_kor": "등"},
+	{"id": 4, "part_kor": "팔"},
+	{"id": 5, "part_kor": "어깨"},
+	{"id": 6, "part_kor": "전신"},
+	{"id": 7, "part_kor": "코어"}]}
 ]
 }
