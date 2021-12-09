@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>KDN solarmap Appcast</title>
+    <item>
+        <title>Version 1.1.4</title>
+        <pubDate>Wed, 21 July 2021 17:31:11 +0000</pubDate>
+        <enclosure url="https://play.google.com/store/apps/details?id=com.ureasyworld.kdn_solar_map" sparkle:version="1.1.4" sparkle:os="android" />
+    </item>
+  </channel>
+</rss>
