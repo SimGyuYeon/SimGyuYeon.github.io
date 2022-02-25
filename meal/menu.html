@@ -1,55 +1,31 @@
 <<!DOCTYPE html>
 <html>
   <head>
-    <!-- Add this to <head> -->
-
-    <!-- Load required Bootstrap and BootstrapVue CSS -->
-    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
-    <!-- Load polyfills to support older browsers -->
-    <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver" crossorigin="anonymous"></script>
-    <!-- Load Vue followed by BootstrapVue -->
-    <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
-    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>    
-    <!-- Load the following for BootstrapVueIcons support -->
-    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
-
-    <meta charset="utf-8">
-    <title>Vue Samples</title>
-
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
   </head>
   <body>
 
 
     <script src="https://unpkg.com/vue@3"></script>
 
-    <div id="app">{{ message }}</div>
-    <div>
-      <b-card
-        title="Card Title"
-        img-src="https://picsum.photos/600/300/?image=25"
-        img-alt="Image"
-        img-top
-        tag="article"
-        style="max-width: 20rem;"
-        class="mb-2"
-      >
-      <b-card-text>
-        Some quick example text to build on the card title and make up the bulk of the card's content.
-      </b-card-text>
-      <b-button href="#" variant="primary">Go somewhere</b-button>
-      </b-card>
+    <div id="app">
+    <v-app>
+        <v-main>
+          <v-container>Hello world</v-container>
+        </v-main>
+      </v-app>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <script>
-      Vue.createApp({
-        data() {
-          return {
-            message: 'Hello Vue!'
-          }
-        }
-      }).mount('#app')
+      new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+      })
     </script>
   </body>
 </html>
