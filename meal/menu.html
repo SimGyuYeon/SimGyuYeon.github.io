@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <div id="app">
+    <!-- <div id="app">
       <v-app>
         <v-main>
           <template>
@@ -31,14 +31,15 @@
           </template>
         </v-main>
       </v-app>
-      <table border="1" style="border-collapse:collapse;">
-        <tr v-for="menu in menus">
-            <td>{{month}}</td>
-            <td>{{day}}</td>
-            <td>{{menu}}</td>
-        </tr>
-      </table>
 
+    </div> -->
+
+    <div id="app">
+      <ul id="v-for">
+        <li v-for="(month, day, menu) in menus">
+          {{ month  }} {{ day }}  {{ menu }}
+        </li>
+      </ul>
     </div>
 
 
@@ -67,7 +68,11 @@
         created() {
 //          var getMenu = this.menus;
           axios.get("https://simgyuyeon.github.io/meal/menu.json")
-          .then( (response) => { self.menus = response.data; console.log(response.data); console.log(self.menus);});
+          .then( response => {
+            this.menus = response.data;
+            console.log(response.data);
+            console.log(this.menus);
+          });
         },
         methods: {
           getColor (day) {
