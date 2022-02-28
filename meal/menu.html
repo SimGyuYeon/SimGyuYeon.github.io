@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <!-- <div id="app">
+    <div id="app">
       <v-app>
         <v-main>
           <template>
@@ -30,18 +30,53 @@
             </v-data-table>
           </template>
         </v-main>
+        <div><p></p></div>
+        <v-divider></v-divider>
+        <div><p></p></div>
+        <template>
+            <v-card
+              class="mx-auto"
+              max-width="400"
+            >
+              <v-img
+                class="white--text align-end"
+                height="200px"
+                src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+              >
+                <v-card-title>Top 10 Australian beaches</v-card-title>
+              </v-img>
+
+              <v-card-subtitle class="pb-0">
+                Number 10
+              </v-card-subtitle>
+
+              <v-card-text class="text--primary">
+                <div>Whitehaven Beach</div>
+
+                <div>Whitsunday Island, Whitsunday Islands</div>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-btn
+                  color="orange"
+                  text
+                >
+                  Share
+                </v-btn>
+
+                <v-btn
+                  color="orange"
+                  text
+                >
+                  Explore
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
       </v-app>
 
-    </div> -->
 
-    <div id="app">
-      <ul id="v-for">
-        <li v-for="(month, day, menu) in menus">
-          {{ month  }} {{ day }}  {{ menu }}
-        </li>
-      </ul>
     </div>
-
 
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
@@ -55,7 +90,6 @@
             headers: [
               {
                 text: 'month',
-                align: 'start',
                 sortable: false,
                 value: 'month',
               },
@@ -70,7 +104,6 @@
           axios.get("https://simgyuyeon.github.io/meal/menu.json")
           .then( response => {
             this.menus = response.data;
-            console.log(response.data);
             console.log(this.menus);
           });
         },
@@ -80,7 +113,7 @@
             else if (day > 26) return 'orange'
             else return 'green'
           },
-        },
+        }
       })
     </script>
   </body>
