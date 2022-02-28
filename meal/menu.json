@@ -1,5 +1,8 @@
 [
-    {"month":2, "day":26, "menu":"김치찌개"},
-    {"month":2, "day":27, "menu":"김치볶음밥"},
-    {"month":2, "day":28, "menu":"김치찜"}
+    {"month":2, "day":28, "breakfast":"짜파게티", "launch":"짜파게티", "dinner":"짜파게티"},
+    {"month":3, "day":1, "breakfast":"짜파게티", "launch":"짜파게티", "dinner":"짜파게티"},
+    {"month":3, "day":2, "breakfast":"짜파게티", "launch":"짜파게티", "dinner":"짜파게티"},
+    {"month":3, "day":3, "breakfast":"짜파게티", "launch":"짜파게티", "dinner":"짜파게티"},
+    {"month":3, "day":4, "breakfast":"짜파게티", "launch":"짜파게티", "dinner":"짜파게티"},
+    {"month":3, "day":5, "breakfast":"짜파게티", "launch":"짜파게티", "dinner":"짜파게티"},
 ]
