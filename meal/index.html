@@ -1,50 +1,103 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>오늘의 저녁 메뉴</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- React & ReactDOM via CDN -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <!-- Babel for JSX -->
+  <meta charset="UTF-8">
+  <title>오늘의 식사 정보</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-    input, textarea { display: block; margin: 10px 0; padding: 8px; width: 100%; }
-    section { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    section { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h2 { margin-top: 0; }
+    ul { list-style: none; padding-left: 0; }
+    li { margin-bottom: 10px; }
   </style>
 </head>
 <body>
   <div id="root"></div>
-
   <script type="text/babel">
     const { useState, useEffect } = React;
 
     function App() {
-      const [delivery, setDelivery] = useState(localStorage.getItem('delivery') || '');
-      const [dineOut, setDineOut] = useState(localStorage.getItem('dineOut') || '');
+      const [meals, setMeals] = useState([]);
+      const [fridge, setFridge] = useState([]);
+      const [plans, setPlans] = useState([]);
 
       useEffect(() => {
-        localStorage.setItem('delivery', delivery);
-        localStorage.setItem('dineOut', dineOut);
-      }, [delivery, dineOut]);
+        fetch('/meals')
+          .then(res => res.json())
+          .then(data => {
+            const items = data.results.map(item => {
+              const props = item.properties;
+              return {
+                date: props.Date?.date?.start,
+                title: props.Title?.title?.[0]?.plain_text,
+                delivery: props.Delivery?.checkbox,
+                eatOut: props.Eat_out?.checkbox,
+                price: props.Price?.number
+              };
+            });
+            setMeals(items);
+          });
+
+        fetch('/fridge')
+          .then(res => res.json())
+          .then(data => {
+            const items = data.results.map(item => {
+              const props = item.properties;
+              return {
+                name: props.ingredient?.title?.[0]?.plain_text,
+                quantity: props.Quantity?.number,
+                unit: props.Unit?.rich_text?.[0]?.plain_text,
+              };
+            });
+            setFridge(items);
+          });
+
+        fetch('/plans')
+          .then(res => res.json())
+          .then(data => {
+            const items = data.results.map(item => {
+              const props = item.properties;
+              return {
+                date: props.Date?.date?.start,
+                title: props.Title?.title?.[0]?.plain_text,
+                price: props.Price?.number
+              };
+            });
+            setPlans(items);
+          });
+      }, []);
 
       return (
         <div>
-          <h1>🍽️ 오늘의 저녁 메뉴 도우미</h1>
-
           <section>
-            <h2>💰 식비 기록</h2>
-            <label>배달 횟수 / 금액</label>
-            <input value={delivery} onChange={(e) => setDelivery(e.target.value)} />
-            <label>외식 횟수 / 금액</label>
-            <input value={dineOut} onChange={(e) => setDineOut(e.target.value)} />
+            <h2>🍽️ 식사 기록</h2>
+            <ul>
+              {meals.map((m, i) => (
+                <li key={i}>📅 {m.date} - {m.title} {m.delivery ? '🚚 배달' : ''} {m.eatOut ? '🏬 외식' : ''} {m.price ? `💰 ${m.price.toLocaleString()}원` : ''}</li>
+              ))}
+            </ul>
           </section>
 
           <section>
-            <h2>📅 이번 주 메뉴 계획</h2>
-            <textarea rows=\"5\" placeholder=\"예: 월: 카레, 화: 된장찌개 ...\"></textarea>
+            <h2>🧊 냉장고 재료</h2>
+            <ul>
+              {fridge.map((f, i) => (
+                <li key={i}>{f.name} - {f.quantity} {f.unit}</li>
+              ))}
+            </ul>
+          </section>
+
+          <section>
+            <h2>📅 예정 식단</h2>
+            <ul>
+              {plans.map((p, i) => (
+                <li key={i}>📅 {p.date} - {p.title} {p.price ? `💰 예상 ${p.price.toLocaleString()}원` : ''}</li>
+              ))}
+            </ul>
           </section>
         </div>
       );
