@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 저녁 메뉴</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    section {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍽️ 오늘의 저녁 메뉴 도우미</h1>
+
+  <section>
+    <h2>📆 지난 2주 저녁 메뉴</h2>
+    <ul id="recent-meals">
+      <li>6월 10일: 김치찌개</li>
+      <li>6월 9일: 된장국 + 고등어구이</li>
+      <!-- JS로 불러올 수 있음 -->
+    </ul>
+  </section>
+
+  <section>
+    <h2>🥦 냉장고 속 재료</h2>
+    <ul id="fridge-items">
+      <li>계란</li>
+      <li>두부</li>
+      <li>양파</li>
+      <!-- JS로 불러올 수 있음 -->
+    </ul>
+  </section>
+
+  <section>
+    <h2>💰 식비 기록 (2025년 6월)</h2>
+    <label>총 식비 (원)
+      <input type="number" value="320000">
+    </label>
+    <label>배달 횟수 / 금액 (원)
+      <input type="text" value="4회 / 85,000원">
+    </label>
+    <label>외식 횟수 / 금액 (원)
+      <input type="text" value="3회 / 97,000원">
+    </label>
+  </section>
+
+  <section>
+    <h2>📅 이번 주 메뉴 계획</h2>
+    <label>계획 입력</label>
+    <textarea rows="5" placeholder="예: 월: 카레, 화: 된장찌개 ..."></textarea>
+  </section>
+
+  <section>
+    <h2>👩‍❤️‍👨 와이프와 함께 보기</h2>
+    <p>이 페이지를 공유해서 함께 상의해보세요!<br>
+      <strong>URL:</strong> <code>https://simgyuyeon.github.io/</code>
+    </p>
+  </section>
+
+</body>
+</html>
