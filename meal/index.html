@@ -77,7 +77,7 @@
       return (
         <div>
           <section>
-            <h2>🍽️ 식사 기록</h2>
+            <h2> 식사 기록</h2>
             <ul>
               {meals.map((m, i) => (
                 <li key={i}> {m.date} - {m.title} {m.delivery ? ' 배달' : ''} {m.eatOut ? ' 외식' : ''} {m.price ? ` ${m.price.toLocaleString()}원` : ''}</li>
@@ -86,7 +86,7 @@
           </section>
 
           <section>
-            <h2>🧊 냉장고 재료</h2>
+            <h2> 냉장고 재료</h2>
             <ul>
               {fridge.map((f, i) => (
                 <li key={i}>{f.name} - {f.quantity} {f.unit}</li>
