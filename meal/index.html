@@ -80,7 +80,7 @@
             <h2>🍽️ 식사 기록</h2>
             <ul>
               {meals.map((m, i) => (
-                <li key={i}>📅 {m.date} - {m.title} {m.delivery ? '🚚 배달' : ''} {m.eatOut ? '🏬 외식' : ''} {m.price ? `💰 ${m.price.toLocaleString()}원` : ''}</li>
+                <li key={i}> {m.date} - {m.title} {m.delivery ? ' 배달' : ''} {m.eatOut ? ' 외식' : ''} {m.price ? ` ${m.price.toLocaleString()}원` : ''}</li>
               ))}
             </ul>
           </section>
@@ -95,16 +95,16 @@
           </section>
 
           <section>
-            <h2>📅 예정 식단</h2>
+            <h2> 예정 식단</h2>
             <ul>
               {plans.map((p, i) => (
-                <li key={i}>📅 {p.date} - {p.title} {p.price ? `💰 예상 ${p.price.toLocaleString()}원` : ''}</li>
+                <li key={i}> {p.date} - {p.title} {p.price ? ` 예상 ${p.price.toLocaleString()}원` : ''}</li>
               ))}
             </ul>
           </section>
 
           <section>
-            <h2>📝 이번 주 메뉴 계획 작성</h2>
+            <h2> 이번 주 메뉴 계획 작성</h2>
             <textarea rows="5" placeholder="예: 월: 카레, 화: 된장찌개 ..."></textarea>
           </section>
         </div>
