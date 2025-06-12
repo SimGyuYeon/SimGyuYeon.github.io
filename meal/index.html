@@ -13,6 +13,7 @@
     h2 { margin-top: 0; }
     ul { list-style: none; padding-left: 0; }
     li { margin-bottom: 10px; }
+    textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -98,6 +99,11 @@
                 <li key={i}>📅 {p.date} - {p.title} {p.price ? `💰 예상 ${p.price.toLocaleString()}원` : ''}</li>
               ))}
             </ul>
+          </section>
+
+          <section>
+            <h2>📝 이번 주 메뉴 계획 작성</h2>
+            <textarea rows="5" placeholder="예: 월: 카레, 화: 된장찌개 ..."></textarea>
           </section>
         </div>
       );
