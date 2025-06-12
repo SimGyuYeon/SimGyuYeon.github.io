@@ -21,13 +21,15 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
+    const baseUrl = 'https://nameless-hat-e0af.sgy311.workers.dev';
+
     function App() {
       const [meals, setMeals] = useState([]);
       const [fridge, setFridge] = useState([]);
       const [plans, setPlans] = useState([]);
 
       useEffect(() => {
-        fetch('/meals')
+        fetch(`${baseUrl}/meals`)
           .then(res => res.json())
           .then(data => {
             const items = data.results.map(item => {
@@ -43,7 +45,7 @@
             setMeals(items);
           });
 
-        fetch('/fridge')
+        fetch(`${baseUrl}/fridge`)
           .then(res => res.json())
           .then(data => {
             const items = data.results.map(item => {
@@ -57,7 +59,7 @@
             setFridge(items);
           });
 
-        fetch('/plans')
+        fetch(`${baseUrl}/plans`)
           .then(res => res.json())
           .then(data => {
             const items = data.results.map(item => {
