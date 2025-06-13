@@ -13,7 +13,8 @@
     h2 { margin-top: 0; }
     ul { list-style: none; padding-left: 0; }
     li { margin-bottom: 10px; }
-    textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-top: 10px; }
+    textarea, input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-top: 10px; }
+    button { margin-top: 10px; padding: 8px 12px; border-radius: 6px; border: none; background-color: #007bff; color: white; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -21,15 +22,17 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const baseUrl = 'https://nameless-hat-e0af.sgy311.workers.dev';
-
     function App() {
       const [meals, setMeals] = useState([]);
       const [fridge, setFridge] = useState([]);
       const [plans, setPlans] = useState([]);
+      const [planInput, setPlanInput] = useState("");
+      const [mealInput, setMealInput] = useState("");
+      const [fridgeInput, setFridgeInput] = useState({ name: "", quantity: 1, unit: "개" });
+      const [planForm, setPlanForm] = useState({ title: "", price: "" });
 
       useEffect(() => {
-        fetch(`${baseUrl}/meals`)
+        fetch('https://nameless-hat-e0af.sgy311.workers.dev/meals')
           .then(res => res.json())
           .then(data => {
             const items = data.results.map(item => {
@@ -45,7 +48,7 @@
             setMeals(items);
           });
 
-        fetch(`${baseUrl}/fridge`)
+        fetch('https://nameless-hat-e0af.sgy311.workers.dev/fridge')
           .then(res => res.json())
           .then(data => {
             const items = data.results.map(item => {
@@ -59,7 +62,7 @@
             setFridge(items);
           });
 
-        fetch(`${baseUrl}/plans`)
+        fetch('https://nameless-hat-e0af.sgy311.workers.dev/plans')
           .then(res => res.json())
           .then(data => {
             const items = data.results.map(item => {
@@ -74,38 +77,88 @@
           });
       }, []);
 
+      const today = new Date().toISOString().split("T")[0];
+
+      const handleMealSubmit = () => {
+        if (!mealInput) return;
+        fetch("https://nameless-hat-e0af.sgy311.workers.dev/meals", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: mealInput, date: today })
+        }).then(() => {
+          alert("식사 추가됨");
+          setMealInput("");
+        });
+      };
+
+      const handleFridgeSubmit = () => {
+        if (!fridgeInput.name) return;
+        fetch("https://nameless-hat-e0af.sgy311.workers.dev/fridge", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: fridgeInput.name,
+            quantity: parseInt(fridgeInput.quantity),
+            unit: fridgeInput.unit
+          })
+        }).then(() => {
+          alert("재료 추가됨");
+          setFridgeInput({ name: "", quantity: 1, unit: "개" });
+        });
+      };
+
+      const handlePlanSubmit = () => {
+        if (!planForm.title) return;
+        fetch("https://nameless-hat-e0af.sgy311.workers.dev/plans", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: planForm.title,
+            price: parseInt(planForm.price),
+            date: today
+          })
+        }).then(() => {
+          alert("식단 계획 저장됨");
+          setPlanForm({ title: "", price: "" });
+        });
+      };
+
       return (
         <div>
           <section>
             <h2> 식사 기록</h2>
             <ul>
               {meals.map((m, i) => (
-                <li key={i}> {m.date} - {m.title} {m.delivery ? ' 배달' : ''} {m.eatOut ? ' 외식' : ''} {m.price ? ` ${m.price.toLocaleString()}원` : ''}</li>
+                <li key={i}>{m.date} - {m.title}</li>
               ))}
             </ul>
+            <input placeholder="식사 이름" value={mealInput} onChange={e => setMealInput(e.target.value)} />
+            <button onClick={handleMealSubmit}>추가</button>
           </section>
 
           <section>
-            <h2> 냉장고 재료</h2>
+            <h2 냉장고 재료</h2>
             <ul>
               {fridge.map((f, i) => (
                 <li key={i}>{f.name} - {f.quantity} {f.unit}</li>
               ))}
             </ul>
+            <input placeholder="재료명" value={fridgeInput.name} onChange={e => setFridgeInput({ ...fridgeInput, name: e.target.value })} />
+            <input type="number" value={fridgeInput.quantity} onChange={e => setFridgeInput({ ...fridgeInput, quantity: e.target.value })} />
+            <input placeholder="단위 (예: 개, 봉지)" value={fridgeInput.unit} onChange={e => setFridgeInput({ ...fridgeInput, unit: e.target.value })} />
+            <button onClick={handleFridgeSubmit}>재료 추가</button>
           </section>
 
           <section>
             <h2> 예정 식단</h2>
             <ul>
               {plans.map((p, i) => (
-                <li key={i}> {p.date} - {p.title} {p.price ? ` 예상 ${p.price.toLocaleString()}원` : ''}</li>
+                <li key={i}>{p.date} - {p.title} ({p.price}원)</li>
               ))}
             </ul>
-          </section>
-
-          <section>
-            <h2> 이번 주 메뉴 계획 작성</h2>
-            <textarea rows="5" placeholder="예: 월: 카레, 화: 된장찌개 ..."></textarea>
+            <input placeholder="식단명" value={planForm.title} onChange={e => setPlanForm({ ...planForm, title: e.target.value })} />
+            <input type="number" placeholder="예상 가격" value={planForm.price} onChange={e => setPlanForm({ ...planForm, price: e.target.value })} />
+            <button onClick={handlePlanSubmit}>계획 추가</button>
           </section>
         </div>
       );
