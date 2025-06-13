@@ -29,10 +29,11 @@ GitHub Pages + Notion API + Cloudflare Workers 기반으로 동작하며, 데이
 
 ## 🗂️ 디렉토리 구조
 / (루트 디렉토리)
-├── index.html # 메인 HTML 페이지
-├── style.css # Apple 스타일 반응형 CSS
-├── main.js # Axios 기반 동작 스크립트 (CRUD)
-└── README.md # 프로젝트 설명서
+├── index.html       # 메인 HTML 페이지
+├── style.css        # Apple 스타일 반응형 CSS
+├── main.js          # Axios 기반 동작 스크립트 (CRUD)
+└── README.md        # 프로젝트 설명서
+
 
 ---
 
