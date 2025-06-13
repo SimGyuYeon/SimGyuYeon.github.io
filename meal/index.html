@@ -1,170 +1,104 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>오늘의 식사 정보</title>
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-    section { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h2 { margin-top: 0; }
-    ul { list-style: none; padding-left: 0; }
-    li { margin-bottom: 10px; }
-    textarea, input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-top: 10px; }
-    button { margin-top: 10px; padding: 8px 12px; border-radius: 6px; border: none; background-color: #007bff; color: white; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState, useEffect } = React;
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>우리집 저녁 메뉴 기록</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+      body { font-family: sans-serif; padding: 1rem; }
+      section { margin-bottom: 2rem; }
+      .item { border: 1px solid #ccc; padding: 0.5rem; margin-bottom: 0.5rem; }
+      button { margin-left: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <h1>🍽️ 저녁 메뉴 기록 관리</h1>
 
-    function App() {
-      const [meals, setMeals] = useState([]);
-      const [fridge, setFridge] = useState([]);
-      const [plans, setPlans] = useState([]);
-      const [planInput, setPlanInput] = useState("");
-      const [mealInput, setMealInput] = useState("");
-      const [fridgeInput, setFridgeInput] = useState({ name: "", quantity: 1, unit: "개" });
-      const [planForm, setPlanForm] = useState({ title: "", price: "" });
+    <section>
+      <h2>✅ 식사 기록</h2>
+      <input id="meal-title" placeholder="메뉴 이름" />
+      <input id="meal-date" type="date" />
+      <button onclick="addMeal()">추가</button>
+      <div id="meal-list"></div>
+    </section>
 
-      useEffect(() => {
-        fetch('https://nameless-hat-e0af.sgy311.workers.dev/meals')
-          .then(res => res.json())
-          .then(data => {
-            const items = data.results.map(item => {
-              const props = item.properties;
-              return {
-                date: props.Date?.date?.start,
-                title: props.Title?.title?.[0]?.plain_text,
-                delivery: props.Delivery?.checkbox,
-                eatOut: props.Eat_out?.checkbox,
-                price: props.Price?.number
-              };
-            });
-            setMeals(items);
-          });
+    <section>
+      <h2>🥬 냉장고 재료</h2>
+      <input id="fridge-name" placeholder="재료명" />
+      <input id="fridge-qty" type="number" placeholder="수량" />
+      <input id="fridge-unit" placeholder="단위" />
+      <button onclick="addFridge()">추가</button>
+      <div id="fridge-list"></div>
+    </section>
 
-        fetch('https://nameless-hat-e0af.sgy311.workers.dev/fridge')
-          .then(res => res.json())
-          .then(data => {
-            const items = data.results.map(item => {
-              const props = item.properties;
-              return {
-                name: props.ingredient?.title?.[0]?.plain_text,
-                quantity: props.Quantity?.number,
-                unit: props.Unit?.rich_text?.[0]?.plain_text,
-              };
-            });
-            setFridge(items);
-          });
+    <section>
+      <h2>📅 식단 계획</h2>
+      <input id="plan-title" placeholder="계획 메뉴" />
+      <input id="plan-date" type="date" />
+      <button onclick="addPlan()">추가</button>
+      <div id="plan-list"></div>
+    </section>
 
-        fetch('https://nameless-hat-e0af.sgy311.workers.dev/plans')
-          .then(res => res.json())
-          .then(data => {
-            const items = data.results.map(item => {
-              const props = item.properties;
-              return {
-                date: props.Date?.date?.start,
-                title: props.Title?.title?.[0]?.plain_text,
-                price: props.Price?.number
-              };
-            });
-            setPlans(items);
-          });
-      }, []);
+    <script>
+      const endpoint = 'https://nameless-hat-e0af.sgy311.workers.dev';
 
-      const today = new Date().toISOString().split("T")[0];
+      async function loadData(type) {
+        const res = await fetch(`${endpoint}/${type}`);
+        const json = await res.json();
+        const listEl = document.getElementById(`${type}-list`);
+        listEl.innerHTML = '';
 
-      const handleMealSubmit = () => {
-        if (!mealInput) return;
-        fetch("https://nameless-hat-e0af.sgy311.workers.dev/meals", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ title: mealInput, date: today })
-        }).then(() => {
-          alert("식사 추가됨");
-          setMealInput("");
+        json.results.forEach(item => {
+          const title = item.properties.Title.title?.[0]?.plain_text || '(제목 없음)';
+          const id = item.id;
+          const div = document.createElement('div');
+          div.className = 'item';
+          div.innerHTML = `
+            <b>${title}</b>
+            <button onclick="editItem('${type}', '${id}', prompt('새 이름', '${title}'))">수정</button>
+            <button onclick="deleteItem('${type}', '${id}')">삭제</button>
+          `;
+          listEl.appendChild(div);
         });
-      };
+      }
 
-      const handleFridgeSubmit = () => {
-        if (!fridgeInput.name) return;
-        fetch("https://nameless-hat-e0af.sgy311.workers.dev/fridge", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: fridgeInput.name,
-            quantity: parseInt(fridgeInput.quantity),
-            unit: fridgeInput.unit
-          })
-        }).then(() => {
-          alert("재료 추가됨");
-          setFridgeInput({ name: "", quantity: 1, unit: "개" });
-        });
-      };
+      async function addMeal() {
+        const title = document.getElementById('meal-title').value;
+        const date = document.getElementById('meal-date').value;
+        await axios.post(`${endpoint}/meals`, { title, date });
+        loadData('meals');
+      }
 
-      const handlePlanSubmit = () => {
-        if (!planForm.title) return;
-        fetch("https://nameless-hat-e0af.sgy311.workers.dev/plans", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: planForm.title,
-            price: parseInt(planForm.price),
-            date: today
-          })
-        }).then(() => {
-          alert("식단 계획 저장됨");
-          setPlanForm({ title: "", price: "" });
-        });
-      };
+      async function addFridge() {
+        const name = document.getElementById('fridge-name').value;
+        const quantity = Number(document.getElementById('fridge-qty').value);
+        const unit = document.getElementById('fridge-unit').value;
+        await axios.post(`${endpoint}/fridge`, { name, quantity, unit });
+        loadData('fridge');
+      }
 
-      return (
-        <div>
-          <section>
-            <h2> 식사 기록</h2>
-            <ul>
-              {meals.map((m, i) => (
-                <li key={i}>{m.date} - {m.title}</li>
-              ))}
-            </ul>
-            <input placeholder="식사 이름" value={mealInput} onChange={e => setMealInput(e.target.value)} />
-            <button onClick={handleMealSubmit}>추가</button>
-          </section>
+      async function addPlan() {
+        const title = document.getElementById('plan-title').value;
+        const date = document.getElementById('plan-date').value;
+        await axios.post(`${endpoint}/plans`, { title, date });
+        loadData('plans');
+      }
 
-          <section>
-            <h2> 냉장고 재료</h2>
-            <ul>
-              {fridge.map((f, i) => (
-                <li key={i}>{f.name} - {f.quantity} {f.unit}</li>
-              ))}
-            </ul>
-            <input placeholder="재료명" value={fridgeInput.name} onChange={e => setFridgeInput({ ...fridgeInput, name: e.target.value })} />
-            <input type="number" value={fridgeInput.quantity} onChange={e => setFridgeInput({ ...fridgeInput, quantity: e.target.value })} />
-            <input placeholder="단위 (예: 개, 봉지)" value={fridgeInput.unit} onChange={e => setFridgeInput({ ...fridgeInput, unit: e.target.value })} />
-            <button onClick={handleFridgeSubmit}>재료 추가</button>
-          </section>
+      async function editItem(type, id, newTitle) {
+        if (!newTitle) return;
+        await axios.patch(`${endpoint}/${type}/${id}`, { title: newTitle });
+        loadData(type);
+      }
 
-          <section>
-            <h2> 예정 식단</h2>
-            <ul>
-              {plans.map((p, i) => (
-                <li key={i}>{p.date} - {p.title} ({p.price}원)</li>
-              ))}
-            </ul>
-            <input placeholder="식단명" value={planForm.title} onChange={e => setPlanForm({ ...planForm, title: e.target.value })} />
-            <input type="number" placeholder="예상 가격" value={planForm.price} onChange={e => setPlanForm({ ...planForm, price: e.target.value })} />
-            <button onClick={handlePlanSubmit}>계획 추가</button>
-          </section>
-        </div>
-      );
-    }
+      async function deleteItem(type, id) {
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+        await axios.patch(`${endpoint}/${type}/${id}`, { archive: true });
+        loadData(type);
+      }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  </script>
-</body>
+      loadData('meals');
+      loadData('fridge');
+      loadData('plans');
+    </script>
+  </body>
 </html>
