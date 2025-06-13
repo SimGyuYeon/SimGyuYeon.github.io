@@ -22,7 +22,7 @@
       <button onclick="addMeal()">추가</button>
       <table>
         <thead><tr><th>이름</th><th>날짜</th><th>작업</th></tr></thead>
-        <tbody id="meal-list"></tbody>
+        <tbody id="meals-list"></tbody>
       </table>
     </section>
 
@@ -45,7 +45,7 @@
       <button onclick="addPlan()">추가</button>
       <table>
         <thead><tr><th>이름</th><th>날짜</th><th>작업</th></tr></thead>
-        <tbody id="plan-list"></tbody>
+        <tbody id="plans-list"></tbody>
       </table>
     </section>
 
@@ -53,36 +53,49 @@
       const endpoint = 'https://nameless-hat-e0af.sgy311.workers.dev';
 
       async function loadData(type) {
-        const res = await fetch(`${endpoint}/${type}`);
-        const json = await res.json();
-        const listEl = document.getElementById(`${type}-list`);
-        listEl.innerHTML = '';
+        try {
+          const res = await fetch(`${endpoint}/${type}`);
+          const json = await res.json();
+          const listEl = document.getElementById(`${type}-list`) || document.getElementById(`${type}s-list`);
+          if (!listEl) return;
+          listEl.innerHTML = '';
 
-        json.results.forEach(item => {
-          const title = item.properties.Title.title?.[0]?.plain_text || '(제목 없음)';
-          const date = item.properties.Date?.date?.start || '';
-          const qty = item.properties.Quantity?.number;
-          const unit = item.properties.Unit?.rich_text?.[0]?.text?.content || '';
+          json.results.forEach(item => {
+            let title = '';
+            if (item.properties.Title?.title?.length > 0) {
+              title = item.properties.Title.title[0].plain_text;
+            } else if (item.properties.ingredient?.title?.length > 0) {
+              title = item.properties.ingredient.title[0].plain_text;
+            } else {
+              title = '(제목 없음)';
+            }
 
-          const row = document.createElement('tr');
-          let html = '';
+            const date = item.properties.Date?.date?.start || item.properties.expiration_date?.date?.start || '';
+            const qty = item.properties.Quantity?.number || '';
+            const unit = item.properties.Unit?.rich_text?.[0]?.text?.content || '';
 
-          if (type === 'meals') {
-            html += `<td>${title}</td><td>${date}</td>`;
-          } else if (type === 'fridge') {
-            html += `<td>${title}</td><td>${qty}</td><td>${unit}</td>`;
-          } else if (type === 'plans') {
-            html += `<td>${title}</td><td>${date}</td>`;
-          }
+            const row = document.createElement('tr');
+            let html = '';
 
-          html += `<td>
-            <button onclick="editItem('${type}', '${item.id}', '${title}')">✏️</button>
-            <button onclick="deleteItem('${type}', '${item.id}')">❌</button>
-          </td>`;
+            if (type === 'meals') {
+              html += `<td>${title}</td><td>${date}</td>`;
+            } else if (type === 'fridge') {
+              html += `<td>${title}</td><td>${qty}</td><td>${unit}</td>`;
+            } else if (type === 'plans') {
+              html += `<td>${title}</td><td>${date}</td>`;
+            }
 
-          row.innerHTML = html;
-          listEl.appendChild(row);
-        });
+            html += `<td>
+              <button onclick="editItem('${type}', '${item.id}', '${title}')">✏️</button>
+              <button onclick="deleteItem('${type}', '${item.id}')">❌</button>
+            </td>`;
+
+            row.innerHTML = html;
+            listEl.appendChild(row);
+          });
+        } catch (err) {
+          console.error('데이터 로딩 오류:', err);
+        }
       }
 
       async function addMeal() {
