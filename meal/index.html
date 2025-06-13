@@ -7,8 +7,9 @@
     <style>
       body { font-family: sans-serif; padding: 1rem; }
       section { margin-bottom: 2rem; }
-      .item { border: 1px solid #ccc; padding: 0.5rem; margin-bottom: 0.5rem; }
-      button { margin-left: 0.5rem; }
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+      td button { margin-left: 0.25rem; }
     </style>
   </head>
   <body>
@@ -19,7 +20,10 @@
       <input id="meal-title" placeholder="메뉴 이름" />
       <input id="meal-date" type="date" />
       <button onclick="addMeal()">추가</button>
-      <div id="meal-list"></div>
+      <table>
+        <thead><tr><th>이름</th><th>날짜</th><th>작업</th></tr></thead>
+        <tbody id="meal-list"></tbody>
+      </table>
     </section>
 
     <section>
@@ -28,7 +32,10 @@
       <input id="fridge-qty" type="number" placeholder="수량" />
       <input id="fridge-unit" placeholder="단위" />
       <button onclick="addFridge()">추가</button>
-      <div id="fridge-list"></div>
+      <table>
+        <thead><tr><th>이름</th><th>수량</th><th>단위</th><th>작업</th></tr></thead>
+        <tbody id="fridge-list"></tbody>
+      </table>
     </section>
 
     <section>
@@ -36,7 +43,10 @@
       <input id="plan-title" placeholder="계획 메뉴" />
       <input id="plan-date" type="date" />
       <button onclick="addPlan()">추가</button>
-      <div id="plan-list"></div>
+      <table>
+        <thead><tr><th>이름</th><th>날짜</th><th>작업</th></tr></thead>
+        <tbody id="plan-list"></tbody>
+      </table>
     </section>
 
     <script>
@@ -50,15 +60,28 @@
 
         json.results.forEach(item => {
           const title = item.properties.Title.title?.[0]?.plain_text || '(제목 없음)';
-          const id = item.id;
-          const div = document.createElement('div');
-          div.className = 'item';
-          div.innerHTML = `
-            <b>${title}</b>
-            <button onclick="editItem('${type}', '${id}', prompt('새 이름', '${title}'))">수정</button>
-            <button onclick="deleteItem('${type}', '${id}')">삭제</button>
-          `;
-          listEl.appendChild(div);
+          const date = item.properties.Date?.date?.start || '';
+          const qty = item.properties.Quantity?.number;
+          const unit = item.properties.Unit?.rich_text?.[0]?.text?.content || '';
+
+          const row = document.createElement('tr');
+          let html = '';
+
+          if (type === 'meals') {
+            html += `<td>${title}</td><td>${date}</td>`;
+          } else if (type === 'fridge') {
+            html += `<td>${title}</td><td>${qty}</td><td>${unit}</td>`;
+          } else if (type === 'plans') {
+            html += `<td>${title}</td><td>${date}</td>`;
+          }
+
+          html += `<td>
+            <button onclick="editItem('${type}', '${item.id}', '${title}')">✏️</button>
+            <button onclick="deleteItem('${type}', '${item.id}')">❌</button>
+          </td>`;
+
+          row.innerHTML = html;
+          listEl.appendChild(row);
         });
       }
 
@@ -84,7 +107,8 @@
         loadData('plans');
       }
 
-      async function editItem(type, id, newTitle) {
+      async function editItem(type, id, oldTitle) {
+        const newTitle = prompt('새 이름으로 수정:', oldTitle);
         if (!newTitle) return;
         await axios.patch(`${endpoint}/${type}/${id}`, { title: newTitle });
         loadData(type);
