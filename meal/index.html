@@ -52,12 +52,16 @@
     <script>
       const endpoint = 'https://nameless-hat-e0af.sgy311.workers.dev';
 
+      function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+
       function getTitle(item) {
         try {
-          if (item.properties.Title?.title?.length > 0) {
+          if (item.properties?.Title?.title?.length > 0) {
             return item.properties.Title.title[0].plain_text;
           }
-          if (item.properties.ingredient?.title?.length > 0) {
+          if (item.properties?.ingredient?.title?.length > 0) {
             return item.properties.ingredient.title[0].plain_text;
           }
         } catch (_) {}
@@ -76,10 +80,10 @@
           listEl.innerHTML = '';
 
           json.results.forEach(item => {
-            const title = getTitle(item);
-            const date = item.properties.Date?.date?.start || item.properties.expiration_date?.date?.start || '';
-            const qty = item.properties.Quantity?.number || '';
-            const unit = item.properties.Unit?.rich_text?.[0]?.text?.content || '';
+            const title = escapeHtml(getTitle(item));
+            const date = item.properties?.Date?.date?.start || item.properties?.expiration_date?.date?.start || '';
+            const qty = item.properties?.Quantity?.number || '';
+            const unit = item.properties?.Unit?.rich_text?.[0]?.text?.content || '';
 
             const row = document.createElement('tr');
             let html = '';
@@ -93,7 +97,7 @@
             }
 
             html += `<td>
-              <button onclick="editItem('${type}', '${item.id}', '${title.replace(/'/g, '\\'')})">✏️</button>
+              <button onclick="editItem('${type}', '${item.id}', '${title}')">✏️</button>
               <button onclick="deleteItem('${type}', '${item.id}')">❌</button>
             </td>`;
 
