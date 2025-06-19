@@ -1,4 +1,4 @@
-# SimGyuYeon.github.io/meal/index
+# [meal](SimGyuYeon.github.io/meal/index)
 
 # 🍽️ 우리집 저녁 메뉴 기록 관리
 
